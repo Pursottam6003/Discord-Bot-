@@ -1,11 +1,14 @@
-from keep_alive import keep_alive
+# from keep_alive import keep_alive
 import discord
 import requests
 import json
 import random 
 import datetime
-
+import os 
+from dotenv import load_dotenv
 client = discord.Client()
+
+load_dotenv()
 
 def get_quote():
     response = requests.get("https://zenquotes.io/api/random")
@@ -59,20 +62,21 @@ starter_encouragements = [
   "Success is not final, failure is not fatal: it is the courage to continue that counts."
 ]
 
-Bad_words=["bc","mc","fuck","motherfucker","Bc","Mc","Chutiya","wtf","randi rona","bdsk","maderchod","behenchod","ronda","kela","FUCK","fucker","MC","BC","maa ki chuu","Betichod","sala","Gandu","gandu","Loduchand","lodu","boka","Boka","uski maa ka bhosdra"]
-
+Bad_words=[ "motherfucker","randi rona" ,"maderchod","behenchod","ronda","fucker","maa ki chuu","Betichod","Loduchand","lodu","boka","Boka","uski maa ka bhosdra"]
 mystr="date and time"
-love=["love","I love you","I Love You","ilu","ILU","i love","my love","mine","My Love"]
-
+love=["love","i love you","I Love You","ilu","ILU","i love","my love"]
+lites=["bc","mc","chutiya","wtf","bdsk","fuck","sala","gandu"]
+raha_nahi=["cute","gorgeous","hot","moon","cutie","damn","single","baby","babydoll","myworld"]
 @client.event
 async def on_ready():
   print('We have logged in as {0.user}'.format(client))
 
 @client.event
 async def on_message(message):
+    message.content=(message.content).lower()
     if message.author == client.user:
         return
-  
+    
     if message.content.startswith('$hello'):
         await message.channel.send("Hello Everyone !")
         await message.channel.send(greet_me())
@@ -83,19 +87,61 @@ async def on_message(message):
     if message.content.startswith("$time"):
         await message.channel.send(mytime.strftime("%X"))
 
+    
     if message.content.startswith("congratulations"):
+        with open('stickers/congratulations.mp4','rb') as f:
+            congo = discord.File(f)
+            await message.channel.send(file=congo)
         await message.channel.send("Wow ! Congratualtions Buddy :)")
+
+    if 'birthday' in message.content :
+        with open('stickers/birthday.mp4','rb') as f:
+            congo = discord.File(f)
+            await message.channel.send(file=congo)
+        await message.channel.send("Happy Birthday :)")
 
     if message.content.startswith(mystr):
         await message.channel.send(mydate.strftime("%c"))
-    if any (word in message.content for word in Bad_words):
-        await message.channel.send("Shut Up! please mind your words ! Next time you will be removed!")
     
+    if any (word in message.content for word in lites):
+        with open('stickers/gali.webp','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)
+
+        with open('stickers/spam_mat_karo.webp','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)    
+    
+    if any (word in message.content for word in Bad_words):
+        with open('stickers/tumne_upshabd_kaha.webp','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)
+
+        with open('stickers/padhai.mp4','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)     
     if any (word in message.content for word in sad_words):
+        with open('stickers/bas_karo.webp','rb') as f:
+            bas_karo_bro=discord.File(f)
+            # await message.channel.send(file=bas_karo_bro)
+            await message.reply(file=bas_karo_bro,mention_author=True)
+        await message.channel.send(random.choice(starter_encouragements))
         await message.channel.send(random.choice(starter_encouragements))
     
     if any (word in message.content for word in love):
+        with open('stickers/love1.webp','rb') as f :
+            love_sticker= discord.File(f)
+            await message.reply(file=love_sticker)
         await message.channel.send("I love you too")
+    
+    if any (word in message.content for word in raha_nahi):
+        with open('stickers/love_crush.mp4','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)
+
+        with open('stickers/crush.webp','rb') as f :
+            sticker= discord.File(f)
+            await message.reply(file=sticker)
     if message.content.startswith('$inspire'):
         quote = get_quote()
         await message.channel.send(quote)
@@ -103,5 +149,6 @@ async def on_message(message):
     if message.content.startswith('$love'):
         lines=become_romantic()
         await message.channel.send(lines)
-    keep_alive()
-client.run("OTQ2Mzk2NzczODY4NTAzMTAw.YheGrg.ikGG1BVW0lXf-aR-r1GU7kL3jlo")
+    
+token=os.getenv('PASSWORD')
+client.run(token)
