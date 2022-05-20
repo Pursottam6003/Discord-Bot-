@@ -1,4 +1,4 @@
-from keep_alive import keep_alive
+# from keep_alive import keep_alive
 import discord
 import requests
 import json
@@ -103,5 +103,5 @@ async def on_message(message):
     if message.content.startswith('$love'):
         lines=become_romantic()
         await message.channel.send(lines)
-    keep_alive()
+    # keep_alive()
 client.run("OTQ2Mzk2NzczODY4NTAzMTAw.YheGrg.ikGG1BVW0lXf-aR-r1GU7kL3jlo")
