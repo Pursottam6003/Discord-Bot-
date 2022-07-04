@@ -32,7 +32,7 @@
 4. When you send bad words it sends voilent and arrogent messages
 ![images](images/chat6.png)
 
-5. When students send messages to thier crush :) it sends romantic memes
+5. When students send messages to their crush :) it sends romantic memes
 ![images](images/chat3.png)
 
-## Thanks for  Watching 
+## Thank You :)
